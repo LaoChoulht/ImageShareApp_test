@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="imageIDs">
+        <item>1825343</item>
+        <item>2905680</item>
+    </string-array>
+    <string-array name="imageLikes">
+        <item>666</item>
+        <item>888</item>
+    </string-array>
+    <string-array name="images">
+        <item>@drawable/wallpaper_1825343</item>
+        <item>@drawable/wallpaper_2905680</item>
+    </string-array>
+</resources>

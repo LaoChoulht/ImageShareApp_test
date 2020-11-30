@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.LoginActivity">
+
+    <RelativeLayout
+        android:id="@+id/APPIcon"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/login_layout_userName"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="10">
+
+        <ImageView
+            android:layout_width="108dp"
+            android:layout_height="108dp"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/ic_launcher" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/login_layout_userName"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@id/login_layout_psw"
+        app:layout_constraintTop_toBottomOf="@id/APPIcon"
+        app:layout_constraintVertical_weight="2">
+
+        <ImageView
+            android:id="@+id/login_iv_user"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="6dp"
+            android:src="@drawable/ic_baseline_person_24" />
+
+        <EditText
+            android:id="@+id/login_et_userName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="8dp"
+            android:layout_toRightOf="@id/login_iv_user"
+            android:hint="账号/邮箱"
+            android:maxLines="1"
+            android:textSize="15dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/login_layout_psw"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@id/login_layout_others"
+        app:layout_constraintTop_toBottomOf="@id/login_layout_userName"
+        app:layout_constraintVertical_weight="2">
+
+        <ImageView
+            android:id="@+id/login_iv_psw"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="6dp"
+            android:src="@drawable/ic_baseline_lock_24" />
+
+        <EditText
+            android:id="@+id/login_et_psw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="8dp"
+            android:layout_toRightOf="@id/login_iv_psw"
+            android:hint="密码"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:id="@+id/login_iv_pswSwitch"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/ic_baseline_visibility_off_24" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/login_layout_others"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/login_layout_loginBtn"
+        app:layout_constraintTop_toBottomOf="@id/login_layout_psw"
+        app:layout_constraintVertical_weight="2">
+
+        <CheckedTextView
+            android:id="@+id/login_ctv_recordPsw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:checked="true"
+            android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
+            android:gravity="center"
+            android:text="记住密码"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/login_ctv_recordPsw"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="32dp"
+            android:text="注册"
+            android:textColor="#29B6F6"
+            android:textSize="16dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/login_layout_loginBtn"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_layout_others"
+        app:layout_constraintVertical_weight="7">
+
+        <Button
+            android:id="@+id/login_btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#29B6F6"
+            android:text="登录"
+            android:textAllCaps="false"
+            android:textColor="#FFC30E"
+            android:textSize="32sp" />
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
