@@ -83,7 +83,7 @@
             android:textSize="15dp" />
 
         <ImageView
-            android:id="@+id/login_iv_pswSwitch"
+            android:id="@+id/login_iv_pswVisibleSwitch"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"

@@ -1,18 +1,21 @@
 package com.guet.laochou.testapp.utils;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.guet.laochou.testapp.R;
+import com.guet.laochou.testapp.activities.ImageDetailActivity;
 import com.guet.laochou.testapp.models.MainListViewHolder;
 import com.guet.laochou.testapp.models.MyImage;
 
 import java.util.ArrayList;
 
-public class UMainListAdapter extends BaseAdapter {
+public class UMainListAdapter extends BaseAdapter implements View.OnClickListener {
 
     private ArrayList<MyImage> data;
     private Context mContext;
@@ -30,7 +33,7 @@ public class UMainListAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return data.get(i);
     }
 
     @Override
@@ -51,6 +54,7 @@ public class UMainListAdapter extends BaseAdapter {
             // findViews and set Tag
             initViewHolderIDs(convertView, holder1, holder2);
 
+
             convertView.setTag(holder1);
             convertView.setTag(holder2);
         } else {
@@ -58,12 +62,12 @@ public class UMainListAdapter extends BaseAdapter {
             holder2 = (MainListViewHolder) convertView.getTag();
         }
         // set resource
-        holder1.iv_thumbnail.setImageResource(R.drawable.wallpaper_1825343);
-        holder1.tv_imageID.setText("testID");
-        holder1.tv_likeNum.setText("666");
-        holder2.iv_thumbnail.setImageResource(R.drawable.wallpaper_2905680);
-        holder2.tv_imageID.setText("testID");
-        holder2.tv_likeNum.setText("666");
+        holder1.iv_thumbnail.setImageBitmap(myImage.getOriginal());
+        holder1.tv_imageID.setText(myImage.getImageID());
+        holder1.tv_likeNum.setText(myImage.getLikes());
+        holder2.iv_thumbnail.setImageBitmap(myImage.getOriginal());
+        holder2.tv_imageID.setText(myImage.getImageID());
+        holder2.tv_likeNum.setText(myImage.getLikes());
 
         return convertView;
     }
@@ -80,6 +84,31 @@ public class UMainListAdapter extends BaseAdapter {
         holder2.iv_likeBtn = convertView.findViewById(R.id.main_list_card2_iv_likeBtn);
         holder2.iv_downloadBtn = convertView.findViewById(R.id.main_list_card2_iv_download);
 
+        holder1.iv_thumbnail.setOnClickListener(this);
+        holder1.iv_likeBtn.setOnClickListener(this);
+        holder1.iv_downloadBtn.setOnClickListener(this);
+        holder2.iv_thumbnail.setOnClickListener(this);
+        holder2.iv_likeBtn.setOnClickListener(this);
+        holder2.iv_downloadBtn.setOnClickListener(this);
     }
 
+    @Override
+    public void onClick(View view) {
+        Intent intent;
+        switch (view.getId()) {
+            case R.id.main_list_card1_iv_thumbnail:
+            case R.id.main_list_card2_iv_thumbnail:
+                intent = new Intent(mContext, ImageDetailActivity.class);
+                mContext.startActivity(intent);
+                break;
+            case R.id.main_list_card1_iv_likeBtn:
+            case R.id.main_list_card2_iv_likeBtn:
+                Log.d("TESTTAG", "onClick: like");
+                break;
+            case R.id.main_list_card1_iv_download:
+            case R.id.main_list_card2_iv_download:
+                Log.d("TESTTAG", "onClick: download");
+                break;
+        }
+    }
 }

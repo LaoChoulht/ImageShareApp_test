@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.guet.laochou.testapp.R;
 
-public class ImageDetail extends AppCompatActivity {
+public class ImageDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

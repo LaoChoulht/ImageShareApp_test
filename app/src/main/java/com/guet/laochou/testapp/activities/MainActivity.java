@@ -1,18 +1,22 @@
 package com.guet.laochou.testapp.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.guet.laochou.testapp.R;
-import com.guet.laochou.testapp.utils.UMainListAdapter;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -26,10 +30,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DrawerLayout drawer;
     private ImageView userHead_openDrawer;
     private ImageView userHead_inDrawer;
-    private ImageView likeBtn_L,likeBtn_R,download_L,download_R;
+    private SharedPreferences spFile;
+
+    //权限
+    private final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //判断是否获得权限
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            //判断是否弹出说明
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
+                }
+            }
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer);
 
@@ -63,17 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.main_list_card1_iv_likeBtn:
-                Log.d("TESTTAG", "userHead_inDrawer click");
-                break;
-            case R.id.main_list_card1_iv_download:
-                Log.d("TESTTAG", "userHead_inDrawer click");
-                break;
-            case R.id.main_list_card2_iv_likeBtn:
-                break;
-            case R.id.main_list_card2_iv_download:
-                break;
-
         }
     }
 

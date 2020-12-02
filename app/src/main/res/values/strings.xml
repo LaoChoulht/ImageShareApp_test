@@ -8,7 +8,13 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <string name="shared_preferences_file_name">sp_login</string>
+    <string name="login_account_name">login_account_name</string>
+    <string name="login_Psw">login_Psw</string>
+    <string name="login_remember_Psw">login_remember_Psw</string>
+
     <string name="menu_home">主页</string>
     <string name="menu_likes">点赞记录</string>
     <string name="menu_upload">上传图片</string>
+
 </resources>
