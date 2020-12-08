@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.LoginActivity">
+    android:layout_margin="32dp"
+    tools:context="com.guet.laochou.testapp.LoginActivity">
 
     <RelativeLayout
         android:id="@+id/APPIcon"
@@ -50,6 +51,16 @@
             android:hint="账号/邮箱"
             android:maxLines="1"
             android:textSize="15dp" />
+
+        <ImageView
+            android:id="@+id/login_iv_userNameRemove"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/ic_baseline_close_24" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -84,8 +95,8 @@
 
         <ImageView
             android:id="@+id/login_iv_pswVisibleSwitch"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="8dp"
@@ -133,14 +144,23 @@
         app:layout_constraintTop_toBottomOf="@id/login_layout_others"
         app:layout_constraintVertical_weight="7">
 
-        <Button
-            android:id="@+id/login_btn_login"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#29B6F6"
-            android:text="登录"
-            android:textAllCaps="false"
-            android:textColor="#FFC30E"
-            android:textSize="32sp" />
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            app:cardCornerRadius="25dp">
+
+            <Button
+                android:id="@+id/login_btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#29B6F6"
+                android:text="登录"
+                android:textAllCaps="false"
+                android:textColor="#FFC30E"
+                android:textSize="32sp" />
+        </androidx.cardview.widget.CardView>
+
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

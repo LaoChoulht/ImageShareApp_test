@@ -1,10 +1,10 @@
-package com.guet.laochou.testapp.activities;
+package com.guet.laochou.testapp;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.guet.laochou.testapp.R;
+import com.guet.laochou.testapp.activities.R;
 
 public class ImageDetailActivity extends AppCompatActivity {
 

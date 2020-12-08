@@ -1,4 +1,4 @@
-package com.guet.laochou.testapp.activities;
+package com.guet.laochou.testapp;
 
 import android.Manifest;
 import android.content.Intent;
@@ -13,7 +13,7 @@ import android.view.Menu;
 import android.widget.ImageView;
 
 import com.google.android.material.navigation.NavigationView;
-import com.guet.laochou.testapp.R;
+import com.guet.laochou.testapp.activities.R;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //权限
     private final int REQUEST_EXTERNAL_STORAGE = 1;
+
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE

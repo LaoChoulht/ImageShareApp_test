@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.guet.laochou.testapp">
+    package="com.guet.laochou.testapp.activities">
 
     <!--权限清单-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+<!--    <uses-sdk-->
+<!--        xmlns:tools="http://schemas.android.com/tools"-->
+<!--        tools:node="replace" />-->
 
     <application
         android:allowBackup="true"
@@ -13,9 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.ImageDetailActivity" />
-        <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.MainActivity">
+        <activity android:name="com.guet.laochou.testapp.ImageDetailActivity" />
+        <activity android:name="com.guet.laochou.testapp.LoginActivity" />
+        <activity android:name="com.guet.laochou.testapp.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

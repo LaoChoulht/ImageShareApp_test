@@ -7,11 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.guet.laochou.testapp.R;
+import com.guet.laochou.testapp.activities.R;
 import com.guet.laochou.testapp.models.MyImage;
 import com.guet.laochou.testapp.utils.UMainListAdapter;
 
@@ -19,15 +17,14 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
     private ListView listView;
     private MyImage test1, test2;
     private ArrayList<MyImage> itemList;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
+    public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+//        homeViewModel =
+//                ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         listView = root.findViewById(R.id.main_lv_imageList);
 

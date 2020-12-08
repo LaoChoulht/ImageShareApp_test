@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.guet.laochou.testapp.R;
-import com.guet.laochou.testapp.activities.ImageDetailActivity;
+import com.guet.laochou.testapp.ImageDetailActivity;
+import com.guet.laochou.testapp.activities.R;
 import com.guet.laochou.testapp.models.MainListViewHolder;
 import com.guet.laochou.testapp.models.MyImage;
 
@@ -49,7 +49,7 @@ public class UMainListAdapter extends BaseAdapter implements View.OnClickListene
         MainListViewHolder holder1 = new MainListViewHolder();
         MainListViewHolder holder2 = new MainListViewHolder();
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.main_list_items, null);
+            convertView = inflater.inflate(R.layout.home_list_items, null);
             myImage = (MyImage) getItem(position);
             // findViews and set Tag
             initViewHolderIDs(convertView, holder1, holder2);

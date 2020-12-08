@@ -16,5 +16,6 @@
     <string name="menu_home">主页</string>
     <string name="menu_likes">点赞记录</string>
     <string name="menu_upload">上传图片</string>
+    <string name="menu_settings">设置</string>
 
 </resources>
