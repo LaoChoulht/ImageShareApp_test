@@ -4,9 +4,9 @@ import android.graphics.Bitmap;
 
 public class MyImage {
     Bitmap original;
-    int thumbnailResID;
     String imageID;
     String likes;
+    boolean liked = false;
 
     public Bitmap getOriginal() {
         return original;
@@ -14,14 +14,6 @@ public class MyImage {
 
     public void setOriginal(Bitmap original) {
         this.original = original;
-    }
-
-    public int getThumbnailResID() {
-        return thumbnailResID;
-    }
-
-    public void setThumbnailResID(int thumbnailResID) {
-        this.thumbnailResID = thumbnailResID;
     }
 
     public String getImageID() {
@@ -38,5 +30,13 @@ public class MyImage {
 
     public void setLikes(String likes) {
         this.likes = likes;
+    }
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
     }
 }
