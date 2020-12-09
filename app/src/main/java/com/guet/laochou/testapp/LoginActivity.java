@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,14 +17,14 @@ import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import androidx.annotation.RequiresApi;
+
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.guet.laochou.testapp.activities.R;
+import com.guet.laochou.testapp.models.LoginResult;
 import com.guet.laochou.testapp.models.UserLoginInfo;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -39,8 +40,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private Button loginBtn;
     private boolean pswVisible = false;
 
-    private String spFileName, accountKey, pswKey, rememberPswKey;
+    private String spFileName, accountKey, pswKey, rememberPswKey, userTokenKey;
+    private Gson gson;
+    private String loginResultString;
     private SharedPreferences spFile;
+    String remoteLoginString = "http://10.33.59.221:8080/api/login";
 
     private static final MediaType JSON
             = MediaType.get("application/json; charset=utf-8");
@@ -58,22 +62,35 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         recordPswCheck = findViewById(R.id.login_ctv_recordPsw);
         loginBtn = findViewById(R.id.login_btn_login);
 
-        spFileName = getResources().getString(R.string.shared_preferences_file_name);
+        spFileName = getResources().getString(R.string.login_sp_file_name);
         accountKey = getResources().getString(R.string.login_account_name);
         pswKey = getResources().getString(R.string.login_Psw);
         rememberPswKey = getResources().getString(R.string.login_remember_Psw);
+        userTokenKey = getResources().getString(R.string.login_userToken);
         spFile = getSharedPreferences(spFileName, Context.MODE_PRIVATE);
 
         loadUserLoginInfo();
         setOnClickListeners();
 
+        gson = new Gson();
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 Bundle data = msg.getData();
-                String val = data.getString("value");
-                Log.d("TESTTAG", val);
+                LoginResult result = gson.fromJson(data.getString("result"), LoginResult.class);
+                if(result.getStatus() == 1){
+                    spFileName = getResources().getString(R.string.login_userToken_sp_file_name);
+                    SharedPreferences.Editor edit = spFile.edit();
+                    edit.putString(userTokenKey, result.getData());
+                    edit.commit();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    onDestroy();
+                }
+
+//                Log.d("TESTTAG", "run: " + result);
             }
         };
 
@@ -82,11 +99,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             public void run() {
                 Message msg = new Message();
                 Bundle data = new Bundle();
-                Log.d("TESTTAG", "before remoteLogin");
-
-                int tmp = remoteLogin();
-                Log.d("TESTTAG", "after remoteLogin");
-                data.putString("value", "login result:" + tmp);
+                int state = remoteLogin();
+                if (loginResultString != null)
+                    data.putSerializable("result", loginResultString);
                 msg.setData(data);
                 handler.sendMessage(msg);
             }
@@ -118,7 +133,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     editor.remove(rememberPswKey);
                 }
                 editor.apply();
-                Log.d("TESTTAG", "login_btn_login");
                 new Thread(runnable).start();
                 break;
         }
@@ -126,31 +140,19 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     private int remoteLogin() {
         UserLoginInfo info = new UserLoginInfo();
-        Gson gson = new Gson();
         info.setUserName(editUserName.getText().toString());
         info.setUserPsw(editPsw.getText().toString());
-
-        String remoteLoginString = "http://10.33.37.37:8080/api/test";
-        String result = null;
         try {
-            result = post(remoteLoginString, gson.toJson(info));
-            Log.d("TESTTAG", "remoteLogin: " + result);
-            List<UserLoginInfo> list = gson.fromJson(result, new TypeToken<List<UserLoginInfo>>() {
-            }.getType());
-            for (UserLoginInfo a : list) {
-                Log.d("TESTTAG", " " + a.getUserName());
-                Log.d("TESTTAG", " " + a.getUserPsw());
-            }
+            loginResultString = post(remoteLoginString, gson.toJson(info));
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//        startActivity(intent);
-        if (result != null)
+        if (loginResultString != null)
             return 1;
         return 0;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     String post(String url, String json) throws IOException {
         client = new OkHttpClient();
         RequestBody body = RequestBody.create(JSON, json);

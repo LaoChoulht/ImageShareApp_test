@@ -1,26 +1,14 @@
 package com.guet.laochou.testapp.models;
 
-public class LoginResult {
-    private int status;
-    private String msg;
+import java.io.Serializable;
+
+public class LoginResult extends RemoteReturnResult implements Serializable {
     private String data;
 
-    public int getStatus() {
-        return status;
+    public LoginResult() {
+        super();
+        setData(" ");
     }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
     public String getData() {
         return data;
     }
