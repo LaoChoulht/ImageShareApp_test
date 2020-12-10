@@ -1,6 +1,7 @@
 package com.guet.laochou.testapp;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DrawerLayout drawer;
     private ImageView userHead_openDrawer;
     private ImageView userHead_inDrawer;
-//    private SharedPreferences spFile;
+    private SharedPreferences spFile;
 
     //权限
     private final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         }
+
         Log.d("TESTTAG", "main onCreate: ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer);

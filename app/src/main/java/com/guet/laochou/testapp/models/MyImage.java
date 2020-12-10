@@ -2,6 +2,7 @@ package com.guet.laochou.testapp.models;
 
 import android.graphics.Bitmap;
 
+
 public class MyImage {
     Bitmap original;
     String imageID;

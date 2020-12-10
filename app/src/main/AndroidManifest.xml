@@ -17,7 +17,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.guet.laochou.testapp.ImageDetailActivity" />
         <activity android:name="com.guet.laochou.testapp.LoginActivity" />
         <activity android:name="com.guet.laochou.testapp.MainActivity">
             <intent-filter>

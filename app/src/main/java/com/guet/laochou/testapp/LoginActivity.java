@@ -44,7 +44,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private Gson gson;
     private String loginResultString;
     private SharedPreferences spFile;
-    String remoteLoginString = "http://10.33.59.221:8080/api/login";
+    String remoteLoginString;
 
     private static final MediaType JSON
             = MediaType.get("application/json; charset=utf-8");
@@ -62,12 +62,15 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         recordPswCheck = findViewById(R.id.login_ctv_recordPsw);
         loginBtn = findViewById(R.id.login_btn_login);
 
+        remoteLoginString = getResources().getString(R.string.remoteServerID)+
+                getResources().getString(R.string.loginAPI);
         spFileName = getResources().getString(R.string.login_sp_file_name);
         accountKey = getResources().getString(R.string.login_account_name);
         pswKey = getResources().getString(R.string.login_Psw);
         rememberPswKey = getResources().getString(R.string.login_remember_Psw);
         userTokenKey = getResources().getString(R.string.login_userToken);
         spFile = getSharedPreferences(spFileName, Context.MODE_PRIVATE);
+
 
         loadUserLoginInfo();
         setOnClickListeners();
@@ -81,6 +84,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 LoginResult result = gson.fromJson(data.getString("result"), LoginResult.class);
                 if(result.getStatus() == 1){
                     spFileName = getResources().getString(R.string.login_userToken_sp_file_name);
+                    spFile = getSharedPreferences(spFileName, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = spFile.edit();
                     edit.putString(userTokenKey, result.getData());
                     edit.commit();
@@ -89,8 +93,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     finish();
                     onDestroy();
                 }
-
-//                Log.d("TESTTAG", "run: " + result);
+                String testname = spFileName;
+//                getResources().getString(R.string.login_userToken_sp_file_name);
+                String testkey = userTokenKey;
+//                        getResources().getString(R.string.login_userToken);
+                SharedPreferences testspfile = spFile;
+//                        getSharedPreferences(testname, Context.MODE_PRIVATE);
+                Log.d("TESTTAG", "test user token "+testspfile.getString(testkey,"null"));
+//                Log.d("TESTTAG", "run: " + spFile.getString(userTokenKey,"null"));
             }
         };
 
@@ -106,6 +116,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 handler.sendMessage(msg);
             }
         };
+
+
     }
 
     @Override

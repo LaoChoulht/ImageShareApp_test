@@ -12,12 +12,11 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.guet.laochou.testapp.activities.R;
-import com.guet.laochou.testapp.ImageDetailActivity;
 import com.guet.laochou.testapp.models.MyImage;
 
 import java.util.ArrayList;
 
-public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewListAdapter.LikedListViewHolder> {
+public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerViewAdapter.LikedListViewHolder> {
 
     private Context mContext;
     private int mResourceID;
@@ -61,8 +60,8 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
             MyImage image;
             switch (view.getId()) {
                 case R.id.main_list_card1_iv_thumbnail:
-                    intent = new Intent(mContext, ImageDetailActivity.class);
-                    view.getContext().startActivity(intent);
+//                    intent = new Intent(mContext, .class);
+//                    view.getContext().startActivity(intent);
                     break;
                 case R.id.main_list_card1_iv_likeBtn:
                     Log.d("TESTTAG", "LikedListViewHolder onclick getTag: " + itemView.getTag());
@@ -86,7 +85,7 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
         }
     }
 
-    public RecyclerViewListAdapter(Context context, int listItemRID, ArrayList<MyImage> data) {
+    public MainRecyclerViewAdapter(Context context, int listItemRID, ArrayList<MyImage> data) {
         this.mContext = context;
         this.mResourceID = listItemRID;
         this.mData = data;

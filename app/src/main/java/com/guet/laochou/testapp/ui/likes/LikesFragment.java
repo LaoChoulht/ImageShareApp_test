@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.guet.laochou.testapp.activities.R;
 import com.guet.laochou.testapp.models.MyImage;
-import com.guet.laochou.testapp.adapters.RecyclerViewListAdapter;
+import com.guet.laochou.testapp.adapters.MainRecyclerViewAdapter;
 
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ public class LikesFragment extends Fragment {
 
         initData();
 
-        RecyclerViewListAdapter adapter = new RecyclerViewListAdapter(getContext(), R.layout.liked_list_item, itemList);
+        MainRecyclerViewAdapter adapter = new MainRecyclerViewAdapter(getContext(), R.layout.liked_list_item, itemList);
         recyclerView.setAdapter(adapter);
 
         return root;

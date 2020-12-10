@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.guet.laochou.testapp.ImageDetailActivity;
 import com.guet.laochou.testapp.activities.R;
 import com.guet.laochou.testapp.models.MainListViewHolder;
 import com.guet.laochou.testapp.models.MyImage;
@@ -98,8 +97,8 @@ public class UMainListAdapter extends BaseAdapter implements View.OnClickListene
         switch (view.getId()) {
             case R.id.main_list_card1_iv_thumbnail:
             case R.id.main_list_card2_iv_thumbnail:
-                intent = new Intent(mContext, ImageDetailActivity.class);
-                mContext.startActivity(intent);
+//                intent = new Intent(mContext, .class);
+//                mContext.startActivity(intent);
                 break;
             case R.id.main_list_card1_iv_likeBtn:
             case R.id.main_list_card2_iv_likeBtn:
