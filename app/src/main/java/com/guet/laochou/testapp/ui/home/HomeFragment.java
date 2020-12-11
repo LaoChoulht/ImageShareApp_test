@@ -1,9 +1,12 @@
 package com.guet.laochou.testapp.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +22,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.gson.Gson;
+import com.guet.laochou.testapp.LoginActivity;
+import com.guet.laochou.testapp.MainActivity;
 import com.guet.laochou.testapp.activities.R;
 import com.guet.laochou.testapp.adapters.MainRecyclerViewAdapter;
 import com.guet.laochou.testapp.models.LoginResult;
@@ -38,7 +43,7 @@ import okhttp3.Response;
 public class HomeFragment extends Fragment {
 
     private ListView listView;
-    private MyImage image,image2;
+    private MyImage image, image2;
     private ArrayList<MyImage> itemList;
     private ArrayList<MyImage> itemList2;
     private MainRecyclerViewAdapter mAdapter;
@@ -52,6 +57,7 @@ public class HomeFragment extends Fragment {
     private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
     private String remoteGetMainListURL;
     private Runnable runnable;
+    private Handler handler;
     private String spFileName, userTokenKey;
     private SharedPreferences spFile;
     private Gson gson;
@@ -77,45 +83,53 @@ public class HomeFragment extends Fragment {
         userTokenKey = getResources().getString(R.string.login_userToken);
         spFile = getActivity().getSharedPreferences(spFileName, Context.MODE_PRIVATE);
 
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                Bundle data = msg.getData();
+
+                sss = data.getString("result");
+                Log.d("TESTTAG", "handleMessage: " + sss);
+                MainListResult result = gson.fromJson(sss, MainListResult.class);
+                if (result != null && result.getStatus() == 1) {
+                    for (Picture p : result.getData()) {
+                        image = new MyImage();
+                        image.setOriginal(stringToBitmap(p.getPicture()));
+                        image.setImageID(String.valueOf(p.getPictureID()));
+                        image.setLikes(String.valueOf(p.getLikes()));
+                        image.setLiked(p.isLikestatus());
+                        addOneItem(image);
+                    }
+                }
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        };
+
         runnable = new Runnable() {
             @Override
             public void run() {
                 Message msg = new Message();
                 Bundle data = new Bundle();
+                String remoteGetMainList = null;
                 try {
-                    sss = remoteGetMainList(4);
-                    Log.d("TESTTAG", "main run: " + sss);
-                    MainListResult result = gson.fromJson(sss, MainListResult.class);
-//                    List<Picture> pictures = gson.fromJson(result.getData(),)
-////                    List<Picture> pictures = new ArrayList<Picture>();
-////                    result.getPictures();
-//                    Log.d("TESTTAG", result.getData() == null?"main run list null":"main run list");
-//                    Log.d("TESTTAG", result.getData().get(0).getPicture());
-                    for(Picture p : result.getData()){
-                        MyImage i = new MyImage();
-                        i.setImageID(p.getPictureName());
-//                        byte[] bitmapArr = Base64.decode(p.getPicture(),);
-//                        i.setOriginal(BitmapFactory.decodeByteArray(bitmapArr,0,bitmapArr.length));
-                        addOneItem(i);
-                    }
-                    mAdapter.notifyItemRangeChanged(0,itemList.size());
+                    remoteGetMainList = remoteGetMainList(4);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                if (remoteGetMainList != null)
+                    data.putSerializable("result", remoteGetMainList);
+                msg.setData(data);
+                handler.sendMessage(msg);
             }
         };
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                for (int i = 0; i < 5; i++) {
-                    addOneItem(image);
-                }
-//                new Thread(runnable).start();
-                swipeRefreshLayout.setRefreshing(false);
+                new Thread(runnable).start();
+
             }
         });
-
 
         mAdapter = new MainRecyclerViewAdapter(getContext(), R.layout.liked_list_item, itemList);
         recyclerView.setAdapter(mAdapter);
@@ -161,5 +175,19 @@ public class HomeFragment extends Fragment {
         try (Response response = client.newCall(request).execute()) {
             return response.body().string();
         }
+    }
+
+    public Bitmap stringToBitmap(String string) {
+        // 将字符串转换成Bitmap类型
+        Bitmap bitmap = null;
+        try {
+            byte[] bitmapArray;
+            bitmapArray = Base64.decode(string, Base64.DEFAULT);
+            bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0,
+                    bitmapArray.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 }

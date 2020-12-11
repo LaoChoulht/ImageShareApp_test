@@ -82,7 +82,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 super.handleMessage(msg);
                 Bundle data = msg.getData();
                 LoginResult result = gson.fromJson(data.getString("result"), LoginResult.class);
-                if(result.getStatus() == 1){
+                if(result != null && result.getStatus() == 1){
                     spFileName = getResources().getString(R.string.login_userToken_sp_file_name);
                     spFile = getSharedPreferences(spFileName, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = spFile.edit();
@@ -93,14 +93,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     finish();
                     onDestroy();
                 }
-                String testname = spFileName;
-//                getResources().getString(R.string.login_userToken_sp_file_name);
-                String testkey = userTokenKey;
-//                        getResources().getString(R.string.login_userToken);
-                SharedPreferences testspfile = spFile;
-//                        getSharedPreferences(testname, Context.MODE_PRIVATE);
-                Log.d("TESTTAG", "test user token "+testspfile.getString(testkey,"null"));
-//                Log.d("TESTTAG", "run: " + spFile.getString(userTokenKey,"null"));
             }
         };
 
@@ -167,6 +159,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     String post(String url, String json) throws IOException {
         client = new OkHttpClient();
+        Log.d("TESTTAG", "login json: " + json);
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)

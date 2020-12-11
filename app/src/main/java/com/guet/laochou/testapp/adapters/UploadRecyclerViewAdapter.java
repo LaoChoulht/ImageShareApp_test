@@ -95,7 +95,7 @@ public class UploadRecyclerViewAdapter extends RecyclerView.Adapter<UploadRecycl
         holder.iv_thumbnail.setImageBitmap(mData.get(position).getOriginal());
         holder.et_imageTitle.setText(mData.get(position).getImageID());
         holder.mView.setTag(position);
-        Log.d("TESTTAG", "upload onBindViewHolder: " + holder.et_imageTitle.getText().toString());
+//        Log.d("TESTTAG", "upload onBindViewHolder: " + holder.et_imageTitle.getText().toString());
 //        holder.et_imageTitle.setText(mData.get(position).getImageID());
     }
 

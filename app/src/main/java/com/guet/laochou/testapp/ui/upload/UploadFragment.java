@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -147,25 +148,25 @@ public class UploadFragment extends Fragment {
         switch (requestCode) {
             //获取照片
             case IMAGE_REQUEST_CODE:
-                Uri selectImage = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                Cursor cursor = getContext().getContentResolver().query(
-                        selectImage,
-                        filePathColumn,
-                        null,
-                        null,
-                        null
-                );
-                cursor.moveToFirst();
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String path = cursor.getString(columnIndex);
-                cursor.close();
-                Bitmap bitmap = BitmapFactory.decodeFile(path);
+                if(data!=null){
+                    Uri selectImage = data.getData();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContext().getContentResolver().query(
+                            selectImage,
+                            filePathColumn,
+                            null,
+                            null,
+                            null
+                    );
+                    cursor.moveToFirst();
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String path = cursor.getString(columnIndex);
+                    cursor.close();
+                    Bitmap bitmap = BitmapFactory.decodeFile(path);
 
-                image.setOriginal(bitmap);
-//                image.setImageID(get);
-                addOneItem(image);
-                //                Log.d("TESTTAG", "picture " + picture + " list" + uploadList);
+                    image.setOriginal(bitmap);
+                    addOneItem(image);
+                }
                 break;
             default:
                 break;
@@ -179,16 +180,16 @@ public class UploadFragment extends Fragment {
         recyclerView.scrollToPosition(0);
     }
 
+
+
     public String remoteUpload(List<MyImage> showList) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         for (MyImage i : showList) {
-            i.getOriginal().compress(Bitmap.CompressFormat.JPEG, 50, baos);
             picture = new Picture();
-            picture.setPicture(new String(baos.toByteArray(),"utf-8"));
+            picture.setPicture(bitmapToString(i.getOriginal()));
             picture.setPictureName(i.getImageID());
             uploadList.add(0, picture);
         }
-        pictureUpload.setToken(spFile.getString(userTokenKey,"null"));
+        pictureUpload.setToken(spFile.getString(userTokenKey, "null"));
         pictureUpload.setPictures(uploadList);
 
         String uploadResultString = post(remoteUploadURL, gson.toJson(pictureUpload));
@@ -200,7 +201,7 @@ public class UploadFragment extends Fragment {
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .build();
-        Log.d("TESTTAG", "upload post: "+json);
+        Log.d("TESTTAG", "upload post: " + json);
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
@@ -209,5 +210,15 @@ public class UploadFragment extends Fragment {
         try (Response response = client.newCall(request).execute()) {
             return response.body().string();
         }
+    }
+
+    public String bitmapToString(Bitmap bitmap) {
+        //将Bitmap转换成字符串
+        String string = null;
+        ByteArrayOutputStream bStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bStream);
+        byte[] bytes = bStream.toByteArray();
+        string = Base64.encodeToString(bytes, Base64.DEFAULT);
+        return string;
     }
 }
