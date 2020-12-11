@@ -163,6 +163,9 @@ public class HomeFragment extends Fragment {
 
     public String remoteGetMainList(int num) throws IOException {
         String result = new String();
+        spFileName = getResources().getString(R.string.login_sp_file_name);
+        spFile = getActivity().getSharedPreferences(spFileName, Context.MODE_PRIVATE);
+        remoteGetMainListURL = "http://"+spFile.getString("remoteServerIDKey","null")+":8080/api/p?n=";
         result = post(remoteGetMainListURL + num);
         return result;
     }

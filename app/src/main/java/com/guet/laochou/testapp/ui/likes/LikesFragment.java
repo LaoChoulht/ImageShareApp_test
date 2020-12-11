@@ -45,7 +45,7 @@ public class LikesFragment extends Fragment {
 
     private OkHttpClient client;
     private final MediaType JSON = MediaType.get("application/json; charset=utf-8");
-    private String remoteUploadURL;
+    private String remoteGetLikedListURL;
     private String pictureID;
     private UserToken userToken;
     private String remoteLikelistResult;
@@ -69,7 +69,7 @@ public class LikesFragment extends Fragment {
         userToken = new UserToken();
         itemList = new ArrayList<>();
         resultList = new ArrayList<>();
-        remoteUploadURL = getResources().getString(R.string.remoteServerID) +
+        remoteGetLikedListURL = getResources().getString(R.string.remoteServerID) +
                 getResources().getString(R.string.likeListAPI);
         spFileName = getResources().getString(R.string.login_userToken_sp_file_name);
         userTokenKey = getResources().getString(R.string.login_userToken);
@@ -151,7 +151,10 @@ public class LikesFragment extends Fragment {
     }
 
     public String remoteGetLikedList() throws IOException {
-        String likeResultString = post(remoteUploadURL, gson.toJson(userToken));
+        spFileName = getResources().getString(R.string.login_sp_file_name);
+        spFile = getActivity().getSharedPreferences(spFileName, Context.MODE_PRIVATE);
+        remoteGetLikedListURL = "http://"+spFile.getString("remoteServerIDKey","null")+":8080/api/plikes";
+        String likeResultString = post(remoteGetLikedListURL, gson.toJson(userToken));
         return likeResultString;
     }
 

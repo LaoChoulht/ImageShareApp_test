@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_margin="32dp"
+    android:orientation="vertical"
     tools:context="com.guet.laochou.testapp.LoginActivity">
 
     <RelativeLayout
@@ -162,5 +162,12 @@
                 android:textSize="32sp" />
         </androidx.cardview.widget.CardView>
 
+
     </RelativeLayout>
+
+    <EditText
+        android:id="@+id/remoteServerID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

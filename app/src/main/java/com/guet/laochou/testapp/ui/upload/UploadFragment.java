@@ -191,7 +191,9 @@ public class UploadFragment extends Fragment {
         }
         pictureUpload.setToken(spFile.getString(userTokenKey, "null"));
         pictureUpload.setPictures(uploadList);
-
+        spFileName = getResources().getString(R.string.login_sp_file_name);
+        spFile = getActivity().getSharedPreferences(spFileName, Context.MODE_PRIVATE);
+        remoteUploadURL = "http://"+spFile.getString("remoteServerIDKey","null")+":8080/api/pictureupload";
         String uploadResultString = post(remoteUploadURL, gson.toJson(pictureUpload));
         return uploadResultString;
     }

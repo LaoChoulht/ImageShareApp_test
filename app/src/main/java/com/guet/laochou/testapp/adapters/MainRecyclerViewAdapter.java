@@ -49,7 +49,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
 
         private OkHttpClient client;
         private final MediaType JSON = MediaType.get("application/json; charset=utf-8");
-        private String remoteUploadURL;
+        private String remoteLikeOpURL;
         private String pictureID;
         private Like like;
         private Runnable runnable;
@@ -65,7 +65,7 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
             like = new Like();
             gson = new Gson();
 
-            remoteUploadURL = mContext.getResources().getString(R.string.remoteServerID) +
+            remoteLikeOpURL = mContext.getResources().getString(R.string.remoteServerID) +
                     mContext.getResources().getString(R.string.likeAPI);
             spFileName = mContext.getResources().getString(R.string.login_userToken_sp_file_name);
             userTokenKey = mContext.getResources().getString(R.string.login_userToken);
@@ -144,18 +144,22 @@ public class MainRecyclerViewAdapter extends RecyclerView.Adapter<MainRecyclerVi
         private String remoteLike(int pictureID) throws IOException {
             like.setPictureID(pictureID);
             like.setToken(spFile.getString(userTokenKey, "null"));
-            Log.d("TESTTAG", "like: ");
-            String likeResultString = post(remoteUploadURL, gson.toJson(like));
+//            Log.d("TESTTAG", "like: ");
+            spFileName = mContext.getResources().getString(R.string.login_sp_file_name);
+            spFile = mContext.getSharedPreferences(spFileName, Context.MODE_PRIVATE);
+            remoteLikeOpURL = "http://"+spFile.getString("remoteServerIDKey","null")+":8080/api/like";
+            String likeResultString = post(remoteLikeOpURL, gson.toJson(like));
             return likeResultString;
         }
 
         private String remoteDislike(int pictureID) throws IOException {
             like.setPictureID(pictureID);
             like.setToken(spFile.getString(userTokenKey, "null"));
-            remoteUploadURL = mContext.getResources().getString(R.string.remoteServerID) +
-                    mContext.getResources().getString(R.string.dislikeAPI);
-            Log.d("TESTTAG", "dislike: "+remoteUploadURL);
-            String likeResultString = post(remoteUploadURL, gson.toJson(like));
+            spFileName = mContext.getResources().getString(R.string.login_sp_file_name);
+            spFile = mContext.getSharedPreferences(spFileName, Context.MODE_PRIVATE);
+            remoteLikeOpURL = "http://"+spFile.getString("remoteServerIDKey","null")+":8080/api/dislike";
+//            Log.d("TESTTAG", "dislike: "+ remoteLikeOpURL);
+            String likeResultString = post(remoteLikeOpURL, gson.toJson(like));
             return likeResultString;
         }
 

@@ -34,13 +34,13 @@ import okhttp3.Response;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
 
-    private EditText editPsw, editUserName;
+    private EditText editPsw, editUserName,serverID;
     private ImageView pswVisibleBtn;
     private CheckedTextView recordPswCheck;
     private Button loginBtn;
     private boolean pswVisible = false;
 
-    private String spFileName, accountKey, pswKey, rememberPswKey, userTokenKey;
+    private String spFileName, accountKey, pswKey, rememberPswKey, userTokenKey,remoteServerIDKey;
     private Gson gson;
     private String loginResultString;
     private SharedPreferences spFile;
@@ -58,6 +58,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         // find views
         editUserName = findViewById(R.id.login_et_userName);
         editPsw = findViewById(R.id.login_et_psw);
+        serverID = findViewById(R.id.remoteServerID);
         pswVisibleBtn = findViewById(R.id.login_iv_pswVisibleSwitch);
         recordPswCheck = findViewById(R.id.login_ctv_recordPsw);
         loginBtn = findViewById(R.id.login_btn_login);
@@ -69,6 +70,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         pswKey = getResources().getString(R.string.login_Psw);
         rememberPswKey = getResources().getString(R.string.login_remember_Psw);
         userTokenKey = getResources().getString(R.string.login_userToken);
+        remoteServerIDKey ="remoteServerIDKey";
         spFile = getSharedPreferences(spFileName, Context.MODE_PRIVATE);
 
 
@@ -127,13 +129,15 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 if (recordPswCheck.isChecked()) {
                     String account = editUserName.getText().toString();
                     String psw = editPsw.getText().toString();
-
+                    String id = serverID.getText().toString();
                     editor.putString(accountKey, account);
                     editor.putString(pswKey, psw);
+                    editor.putString(remoteServerIDKey, id);
                     editor.putBoolean(rememberPswKey, true);
                 } else {
                     editor.remove(accountKey);
                     editor.remove(pswKey);
+                    editor.remove(remoteServerIDKey);
                     editor.remove(rememberPswKey);
                 }
                 editor.apply();
@@ -146,6 +150,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         UserLoginInfo info = new UserLoginInfo();
         info.setUserName(editUserName.getText().toString());
         info.setUserPsw(editPsw.getText().toString());
+        remoteLoginString = "http://"+serverID.getText().toString()+":8080/api/login";
+        Log.d("TESTTAG", "login url: " + remoteLoginString);
         try {
             loginResultString = post(remoteLoginString, gson.toJson(info));
         } catch (IOException e) {
